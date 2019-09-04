@@ -60,12 +60,6 @@
     </div>
 
     <script>
-        $(function (){
-            $('.logout').click(function () {
-                window.location = './login.html';
-            })
-        })
-
         var $level01 = $('.level01');
         var $subli = $('.level02 li')
         $level01.click(function () {
@@ -115,6 +109,24 @@
 
     </script>
 
+
+    <script>
+        $(function () {
+            $('.logout').click(function () {
+                $.ajax({
+                    url: 'http://127.0.0.1:8080/admin/user/logout',
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (data) {
+                        if(data.code == 200){
+                            window.location = './login.html';
+                        }
+                        
+                    }
+                });
+            })
+        })
+    </script>
 </body>
 
 </html>
