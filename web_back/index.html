@@ -131,6 +131,7 @@
 
     <script>
         $(function () {
+            // 页面一加载,就获取用户信息,渲染到页面相应位置
             $.ajax({
             url:'http://localhost:8080/admin/user/info',
             type:'get',
@@ -144,12 +145,16 @@
                 
             }
             });
+            
+            // 退出按钮点击事件
             $('.logout').click(function () {
-                $('.modal-body').text('您确认要退出吗？');
+                // 点击时,询问是否真的要退出
+                $('.modal-body').text('确定要退出吗?');
                 $('#myModal').modal({keyboard:true});
             });
+            // 点击确定,返回主页面
             $('#btnOK').click(function(){
-                $.ajax({
+                    $.ajax({
                     url: 'http://localhost:8080/admin/user/logout',
                     type: 'post',
                     dataType: 'json',
@@ -160,7 +165,7 @@
                         
                     }
                 });
-            })
+            });
         })
     </script>
 </body>
