@@ -18,7 +18,7 @@
     <div class="container-fluid">
         <div class="row spannel_list">
             <div class="col-sm-3 col-xs-6">
-                <div class="spannel">
+                <div class="spannel scolor00">
                     <em>10015</em><span>篇</span>
                     <b>总文章数</b>
                 </div>
@@ -60,6 +60,15 @@
     </div>
 
     <script>
+        $.ajax({
+        url:'http://localhost:8080/admin/data/article',
+        type:'get',
+        dataType:'json',
+        success: function(data){
+            console.log(data);
+            
+        }
+        });
         var oChart = echarts.init(document.getElementById('curve_show'));
         var aList_all = [
           {'count':36,'date':'2019-04-13'},
@@ -85,13 +94,6 @@
           {'count':163,'date':'2019-05-03'},
           {'count':110,'date':'2019-05-04'},
           {'count':80,'date':'2019-05-05'},
-          {'count':82,'date':'2019-05-06'},
-          {'count':70,'date':'2019-05-07'},
-          {'count':65,'date':'2019-05-08'},
-          {'count':54,'date':'2019-05-09'},
-          {'count':40,'date':'2019-05-10'},
-          {'count':45,'date':'2019-05-11'},
-          {'count':38,'date':'2019-05-12'},
         ];
 
         let aCount = [];
@@ -343,6 +345,20 @@
             };
             oColumn.setOption(oColumnopt);
 
+    </script>
+    <script>
+        $.ajax({
+        url:'http://localhost:8080/admin/data/info',
+        type:'get',
+        dataType:'json',
+        success: function(data){
+            $('.scolor00 em').text(data.totalArticle);
+            $('.scolor01 em').text(data.dayArticle);
+            $('.scolor02 em').text(data.totalComment);
+            $('.scolor03 em').text(data.dayComment);
+            
+        }
+        });
     </script>
 
 

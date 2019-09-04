@@ -11,14 +11,15 @@
     <link rel="stylesheet" href="css/iconfont.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="./js/bootstrap/js/bootstrap.min.js"></script>
 </head>
 
 <body>
     <div class="sider">
         <a href="#" class="logo"><img src="images/logo02.png" alt="logo"></a>
         <div class="user_info">
-            <img src="images/2.jpg" alt="person">
-            <span>欢迎&nbsp;&nbsp;李思思</span>
+            <img src="" alt="person">
+            <span>欢迎&nbsp;&nbsp;</span>
             <b>管理员</b>
         </div>
         <div class="menu">
@@ -58,6 +59,24 @@
         <iframe src="main_count.html" frameborder="0" id="main_frame" name="main_frame" frameborder="0"
             scrolling="auto"></iframe>
     </div>
+
+    <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title">系统消息</h4>
+                </div>
+                <div class="modal-body">
+                  <!-- 提示内容区 -->
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                  <button type="button" class="btn btn-primary" id="btnOK">确定</button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->
 
     <script>
         var $level01 = $('.level01');
@@ -112,7 +131,24 @@
 
     <script>
         $(function () {
+            $.ajax({
+            url:'http://localhost:8080/admin/user/info',
+            type:'get',
+            dataType:'json',
+            success: function(data){
+                console.log(data);
+                if(data.code == 200){
+                    $('.user_info img').attr('src',data.data.userPic);
+                    $('.user_info span').text('欢迎 '+data.data.nickname);
+                }
+                
+            }
+            });
             $('.logout').click(function () {
+                $('.modal-body').text('您确认要退出吗？');
+                $('#myModal').modal({keyboard:true});
+            });
+            $('#btnOK').click(function(){
                 $.ajax({
                     url: 'http://localhost:8080/admin/user/logout',
                     type: 'post',

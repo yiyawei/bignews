@@ -9,7 +9,9 @@
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" type="text/css" href="css/iconfont.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" href="./js/bootstrap/css/bootstrap.min.css">
     <script src="./js/jquery-1.12.4.min.js"></script>
+    <script src="./js/bootstrap/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -31,47 +33,73 @@
         </div>
 
     </div>
-
+    <!-- bootstrap 模态框 的 html 代码 -->
+    <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">系统提示</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- 消息框内容区域 -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                    <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button> -->
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /bootstrap 模态框 的 html 代码  -->
     <script>
+
+        function showModel(msg,func) {
+            $('.modal-body').text(msg);
+            $('#myModal').modal({ keyboard: true });
+            if (func && func instanceof Function) {
+                // 启动 一次性 定时器，2秒后 执行 回调函数
+                setTimeout(func, 2000);
+            }
+        }
         $(function () {
             // 给登录按钮注册点击事件
             $('.input_sub').click(function () {
-                var userName = $('.input_txt').val().replace(/ /g,'');
-                var userPsd = $('.input_pass').val().replace(/ /g,'');
+                var userName = $('.input_txt').val().replace(/ /g, '');
+                var userPsd = $('.input_pass').val().replace(/ /g, '');
                 $('.input_txt').val(userName);
                 $('.input_pass').val(userPsd);
-                if(userName.length <3){
-                    alert('用户名长度必须大于6');
-                }else if(userPsd.length<6){
-                    alert('用户密码必须大于6');
-                }else{
+                if (userName.length < 3) {
+                    showModel('用户名必须大于3位')
+                } else if (userPsd.length < 6) {
+                    showModel('密码必须大于6位')
+                } else {
                     $.ajax({
-                    url:'http://localhost:8080/admin/user/login',
-                    type:'post',
-                    dataType:'json',
-                    data:{
-                        username:userName,
-                        password:userPsd
-                    },
-                    success: function(data){
-                        if(data.code == 200){
-
-                            window.location = './index.html';
-                        }else {
-                            $('<span>**用户名或密码错误</span>').css({
-                                position:'absolute', 
-                                bottom:'60px',
-                                left:'65px',
-                                color:'red'
-                            }).appendTo($('.login_form'));
-                            $('.input_pass').focus();
-                            
+                        url: 'http://localhost:8080/admin/user/login',
+                        type: 'post',
+                        dataType: 'json',
+                        data: {
+                            username: userName,
+                            password: userPsd
+                        },
+                        success: function (data) {
+                            showModel(data.msg, function () {
+                                if (data.code == 200) {
+                                    window.location = './index.html';
+                                } else {
+                                    $('<span>**用户名或密码错误</span>').css({
+                                        position: 'absolute',
+                                        bottom: '60px',
+                                        left: '65px',
+                                        color: 'red'
+                                    }).appendTo($('.login_form'));
+                                    $('.input_pass').focus();
+                                }
+                            });
                         }
-                        
-                    }
                     });
-                }
-            })
+                };
+            });
         })
 
 
