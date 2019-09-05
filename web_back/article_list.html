@@ -273,6 +273,21 @@
         $('#release_btn').click(function(){
             window.parent.setMenu(1,1);
         })
+        $(function(){
+            $.ajax({
+            url:'http://127.0.0.1:8080/admin/article/query',
+            type:'get',
+            dataType:'json',
+            data:{
+                key:'未分类',
+                perpage:8,
+            },
+            success: function(data){
+                console.log(data);
+                
+            }
+            });
+        })
     </script>
 
 </body>
