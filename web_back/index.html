@@ -61,22 +61,23 @@
     </div>
 
     <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title">系统消息</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">系统消息</h4>
                 </div>
                 <div class="modal-body">
-                  <!-- 提示内容区 -->
+                    <!-- 提示内容区 -->
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                  <button type="button" class="btn btn-primary" id="btnOK">确定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="btnOK">确定</button>
                 </div>
-              </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-          </div><!-- /.modal -->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     <script>
         var $level01 = $('.level01');
@@ -130,39 +131,44 @@
 
 
     <script>
+        function userInfo() {
+            $.ajax({
+                url: 'http://localhost:8080/admin/user/info',
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.code == 200) {
+                        $('.user_info img').attr('src', data.data.userPic);
+                        $('.user_center_link img').attr('src', data.data.userPic);
+                        $('.user_info span').text('欢迎 ' + data.data.nickname);
+                    }
+
+                }
+            });
+        }
         $(function () {
             // 页面一加载,就获取用户信息,渲染到页面相应位置
-            $.ajax({
-            url:'http://localhost:8080/admin/user/info',
-            type:'get',
-            dataType:'json',
-            success: function(data){
-                console.log(data);
-                if(data.code == 200){
-                    $('.user_info img').attr('src',data.data.userPic);
-                    $('.user_info span').text('欢迎 '+data.data.nickname);
-                }
-                
-            }
-            });
-            
+            userInfo();
+
+
             // 退出按钮点击事件
             $('.logout').click(function () {
                 // 点击时,询问是否真的要退出
                 $('.modal-body').text('确定要退出吗?');
-                $('#myModal').modal({keyboard:true});
+                $('#myModal').modal({ keyboard: true });
             });
             // 点击确定,返回主页面
-            $('#btnOK').click(function(){
-                    $.ajax({
+            $('#btnOK').click(function () {
+                $.ajax({
                     url: 'http://localhost:8080/admin/user/logout',
                     type: 'post',
                     dataType: 'json',
                     success: function (data) {
-                        if(data.code == 200){
+                        if (data.code == 200) {
                             window.location = './login.html';
                         }
-                        
+
                     }
                 });
             });
