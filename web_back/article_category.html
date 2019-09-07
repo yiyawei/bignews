@@ -91,6 +91,7 @@
 
     $('#model_shutoff').click(function () {
       $('#addModal').modal('hide');
+      document.getElementById('f1').reset();
     });
 
   </script>
@@ -138,6 +139,7 @@
               if (data.code == 200) {
                 $('#addModal').modal('hide');
                 articles();
+                document.getElementById('f1').reset();
               }
             }
           });
